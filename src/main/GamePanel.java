@@ -47,9 +47,11 @@ public class GamePanel extends JPanel implements Runnable{
     // new player Object
     public Player player = new Player(this,keyH);
 
+
+    public int objCount = 10;
     // array of ten slots of objects
     // ten means we can have a max of ten objects loaded at once
-    public SuperObject[] obj = new SuperObject[10];
+    public SuperObject[] obj = new SuperObject[objCount];
 
     // new assetSetter obj pass it this instance of gamePanel
     public AssetSetter aSetter = new AssetSetter(this);
@@ -68,7 +70,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void setUpGame() throws IOException {
 
-        aSetter.setObj();
+        // make the objects in the array with its ID (what object is it) and its X and Y pos in the world
+        aSetter.setObj(1,23,7);
+        aSetter.setObj(2,23,43);
+        aSetter.setObj(3,23,33);
+        aSetter.setObj(4,10,11);
     }
 
 
@@ -113,7 +119,11 @@ public class GamePanel extends JPanel implements Runnable{
             if(delta >= 1)
             {
                 // 1 Update information like character positions,
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 // 2 Draw the screen with updated information
                 // this calls the paintComponent method
                 repaint();
@@ -135,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    public void update() {
+    public void update() throws IOException {
 
         // call the player update method
         player.update();
@@ -154,6 +164,7 @@ public class GamePanel extends JPanel implements Runnable{
         for(int i = 0;i< obj.length;i++) {
 
             if(obj[i] != null) {
+
 
                 obj[i].draw(g2, this);
 

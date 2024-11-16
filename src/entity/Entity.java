@@ -21,4 +21,6 @@ public class Entity {
     public Rectangle hitBox;
     public boolean collisionOn = false;
 
+    public int hitBoxDefaultX, hitBoxDefaultY;
+
 }

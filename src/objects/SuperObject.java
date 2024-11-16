@@ -19,6 +19,11 @@ public class SuperObject {
     // pos for object on world
     public int worldX, worldY;
 
+    // hit box of the object for interaction
+    public Rectangle hitBox = new Rectangle(0,0,48,48);
+    public int hitBoxDefaultX = 0;
+    public int hitBoxDefaultY = 0;
+
     public void draw(Graphics2D g2, GamePanel gp) {
 
         int screenX = worldX - gp.player.worldX + gp.player.screenX;

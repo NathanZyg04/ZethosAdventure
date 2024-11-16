@@ -1,5 +1,6 @@
 package entity;
 
+import main.AssetSetter;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -7,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity {
 
@@ -17,11 +19,18 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    // how many keys the player has
+    int hasKey = 1;
+
+    public AssetSetter aSetter;
+
 
     // constructor
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+        aSetter = new AssetSetter(gp);
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
@@ -30,6 +39,8 @@ public class Player extends Entity {
         // startng point of the rectangle
         hitBox.x = 8;
         hitBox.y = 16;
+        hitBoxDefaultX = hitBox.x;
+        hitBoxDefaultY = hitBox.y;
         hitBox.width = 25;
         hitBox.height = 25;
 
@@ -73,7 +84,7 @@ public class Player extends Entity {
 
     }
 
-    public void update() {
+    public void update() throws IOException {
 
         // movement handling, wrap everything in the outer if statement so the player doesnt animate while no keys are pressed
         if(keyH.downPressed || keyH.upPressed || keyH.leftPressed || keyH.rightPressed)
@@ -99,10 +110,14 @@ public class Player extends Entity {
 
             }
 
-            // check the collision
+            // check the collision with tiles
             collisionOn = false;
             // pass the player object to the checkTile method
             gp.colHandler.checkTile(this);
+
+            // object collision
+            int objIndex = gp.colHandler.checkObject(this, true);
+            pickUpObject(objIndex);
 
             // if collision is false, player can move
             if(!collisionOn)
@@ -129,14 +144,37 @@ public class Player extends Entity {
 
                 spriteCounter = 0;
             }
-
         }
-
-
-
-
-
     }
+
+    // logic for picking up and object
+    public void pickUpObject(int i) throws IOException {
+
+        // if the index was 999, we didnt hit any objects
+        if(i != 999) {
+
+            // delete the object from the array
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    break;
+                case "door":
+                    if(hasKey > 0) {
+                        // change the door to open
+                        gp.obj[i].collision = false;
+                        gp.obj[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door_open.png")));
+                        //gp.obj[i] = null;
+
+                        hasKey--;
+                    }
+                    break;
+            }
+        }
+    }
+
 
     public void draw(Graphics2D g2) {
 
