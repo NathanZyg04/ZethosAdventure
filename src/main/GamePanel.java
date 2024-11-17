@@ -20,8 +20,6 @@ public class GamePanel extends JPanel implements Runnable{
     //world map settings
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
 
     // screen dimensions
     public final int maxScreenCol = 26;
@@ -31,32 +29,26 @@ public class GamePanel extends JPanel implements Runnable{
 
     // game clock
     Thread gameThread;
-
-    // Collision handler
-    public CollisionHandler colHandler = new CollisionHandler(this);
-
-
-
-    KeyHandler keyH = new KeyHandler();
-
     final double FPS = 60;
 
+    // handler things
+    public CollisionHandler colHandler = new CollisionHandler(this);
     public tileManager tileM = new tileManager(this);
-
+    KeyHandler keyH = new KeyHandler();
+    Sound sound = new Sound();
 
     // new player Object
     public Player player = new Player(this,keyH);
 
-
-    public int objCount = 10;
     // array of ten slots of objects
     // ten means we can have a max of ten objects loaded at once
+    public int objCount = 10;
     public SuperObject[] obj = new SuperObject[objCount];
 
     // new assetSetter obj pass it this instance of gamePanel
     public AssetSetter aSetter = new AssetSetter(this);
 
-
+    // constructor
     public GamePanel() {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -64,29 +56,28 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-
-
     }
 
+    // set up game objects and play music
     public void setUpGame() throws IOException {
 
         // make the objects in the array with its ID (what object is it) and its X and Y pos in the world
-        aSetter.setObj(1,23,7);
-        aSetter.setObj(2,23,43);
-        aSetter.setObj(3,23,33);
-        aSetter.setObj(4,10,11);
+        aSetter.setObj("key",23,7);
+        aSetter.setObj("chest",10,8);
+        aSetter.setObj("red_potion",23,33);
+        aSetter.setObj("door",10,11);
+        aSetter.setObj("boots",37,42);
+
+        // music
+        playMusic(0);
     }
 
-
+    // start the game clock
     public void startGameThread() {
-
         // pass the thread the current instance of the GamePanel class
         gameThread = new Thread(this);
-
         // this will call the run() method
         gameThread.start();
-
-
     }
 
 
@@ -113,10 +104,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             lastTime = currentTime;
 
-
-
-
-            if(delta >= 1)
+        if(delta >= 1)
             {
                 // 1 Update information like character positions,
                 try {
@@ -131,16 +119,12 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount++;
             }
 
-
             // display FPS to console
             if(timer >= 1000000000) {
                 System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
-
-
-
         }
     }
 
@@ -151,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
         player.update();
     }
 
+    // drawing things on screen
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -169,16 +154,32 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].draw(g2, this);
 
             }
-
         }
 
         // draw the player
         player.draw(g2);
         // save memory
         g2.dispose();
+    }
 
+    // play the music and loop it
+    public void playMusic(int i) {
+
+        // load the music file
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
 
     }
+
+    public void stopMusic() { sound.stop(); }
+
+    // plays a sound effect
+    public void playEffect(int i) {
+        sound.setFile(i);
+        sound.play();
+    }
+
 
 
 

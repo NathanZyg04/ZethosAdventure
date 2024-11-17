@@ -156,21 +156,27 @@ public class Player extends Entity {
             // delete the object from the array
             String objectName = gp.obj[i].name;
 
+            // logic for what happens when you pick up or interact with an object
             switch (objectName) {
                 case "key":
                     hasKey++;
+                    gp.playEffect(1);
                     gp.obj[i] = null;
                     break;
                 case "door":
                     if(hasKey > 0) {
                         // change the door to open
-                        gp.obj[i].collision = false;
-                        gp.obj[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door_open.png")));
-                        //gp.obj[i] = null;
-
+                        aSetter.replaceObj("door_open",gp.obj[i].worldX, gp.obj[i].worldY,i);
+                        gp.playEffect(5);
                         hasKey--;
                     }
                     break;
+                case "boots":
+                    speed += 2;
+                    gp.obj[i] = null;
+                    break;
+                case "chest":
+                    aSetter.replaceObj("chest_opened",gp.obj[i].worldX, gp.obj[i].worldY,i);
             }
         }
     }
