@@ -34,6 +34,15 @@ public class Entity {
 
     public int actionLockCounter = 0;
 
+    // Dialogue text
+    public String[] dialogues = new String[20];
+    public int dialogueIndex = 0;
+    // max dialogue lines that NPC has
+    public int maxDialogue = 0;
+
+    public int screenX;
+    public int screenY;
+
     public Entity(GamePanel gp) {
 
         this.gp = gp;
@@ -68,6 +77,8 @@ public class Entity {
         setAction();
         collisionOn = false;
         gp.colHandler.checkTile(this);
+        gp.colHandler.checkObject(this, false);
+        gp.colHandler.checkPlayer(this);
 
         // if collision is false, player can move
         if(!collisionOn)
@@ -101,8 +112,10 @@ public class Entity {
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;
-        int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        screenX = worldX - gp.player.worldX + gp.player.screenX;
+        screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        //System.out.println(screenX + ", " + screenY);
 
         if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
                 worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
@@ -155,6 +168,10 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
+    }
+
+    public void Speak() {
+        System.out.println("This wont work");
     }
 
 }

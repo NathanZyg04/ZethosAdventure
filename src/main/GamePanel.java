@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     // handler things
     public CollisionHandler colHandler = new CollisionHandler(this);
     public tileManager tileM = new tileManager(this);
-    KeyHandler keyH = new KeyHandler(this);
+    InputHandler keyH = new InputHandler(this,tileSize);
 
     // sounds
     Sound music = new Sound();
@@ -63,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogueState = 3;
 
 
 
@@ -73,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
+        this.addMouseListener(keyH);
         this.setFocusable(true);
     }
 
@@ -95,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObj("key",23,36);
         aSetter.setObj("key",23,35);
         aSetter.setObj("key",23,34);
-        aSetter.setObj("door",10,11);
+        aSetter.setObj("door",10,12);
         aSetter.setObj("boots",37,42);
 
         // music
@@ -219,6 +221,7 @@ public class GamePanel extends JPanel implements Runnable{
         for(int i = 0;i< npc.length;i++) {
             if(npc[i] != null) {
                 npc[i].draw(g2);
+                //System.out.println(npc[i].hitBox.x + ", " + npc[i].hitBox.y);
             }
         }
 

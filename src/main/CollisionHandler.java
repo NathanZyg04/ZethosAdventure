@@ -194,6 +194,187 @@ public class CollisionHandler {
 
     // NPC or monster collision
     public int checkEntity(Entity entity, Entity[] target) {
-        return 0;
+
+        int index = 999;
+
+        // go through the object array
+        for(int i = 0;i<target.length;i++) {
+
+        // check if that object exsists
+        if(target[i] != null) {
+
+            // Get entity's hit box pos
+            entity.hitBox.x = entity.worldX + entity.hitBox.x;
+            entity.hitBox.y = entity.worldY + entity.hitBox.y;
+
+            // objects X and Y pos
+            target[i].hitBox.x = target[i].worldX + target[i].hitBox.x;
+            target[i].hitBox.y = target[i].worldY + target[i].hitBox.y;
+
+            switch (entity.direction) {
+
+                case "up":
+                    entity.hitBox.y -= entity.speed;
+
+                    // checks if the object's hitbox intersects with the player entities object
+                    // .intersects is from the rectangle class
+                    if(entity.hitBox.intersects(target[i].hitBox)) {
+
+                        entity.collisionOn = true;
+                        index = i;
+
+                    }
+
+                    break;
+                case "down":
+                    entity.hitBox.y += entity.speed;
+
+                    if(entity.hitBox.intersects(target[i].hitBox)) {
+
+                        entity.collisionOn = true;
+                        index = i;
+
+                    }
+
+                    break;
+                case "left":
+                    entity.hitBox.x -= entity.speed;
+
+                    if(entity.hitBox.intersects(target[i].hitBox)) {
+
+                        entity.collisionOn = true;
+                        index = i;
+
+                    }
+
+                    break;
+                case "right":
+                    entity.hitBox.x += entity.speed;
+
+                    if(entity.hitBox.intersects(target[i].hitBox)) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }
+
+                    break;
+
+            }
+
+            // reset the entity x and y value
+            entity.hitBox.x = entity.hitBoxDefaultX;
+            entity.hitBox.y = entity.hitBoxDefaultY;
+
+            target[i].hitBox.x = target[i].hitBoxDefaultX;
+            target[i].hitBox.y = target[i].hitBoxDefaultY;
+
+
+
+        }
+
+        }
+
+        return index;
+
+    }
+
+    // check if you click on an Entity
+    public void clickOnEntity(Entity[] target) {
+
+
+
+        // go through the object array
+        for(int i = 0;i<target.length;i++) {
+
+            // check if that object exsists
+            if(target[i] != null) {
+
+                System.out.println(target[i].screenX + ", " + target[i].screenY);
+
+                if(gp.keyH.screenX >= target[i].screenX - 50 || gp.keyH.screenX <= target[i].screenX + 50
+                    || gp.keyH.screenY >= target[i].screenX - 50 || gp.keyH.screenY <= target[i].screenY + 50 ) {
+
+                    System.out.println("Clicked on entity");
+
+                    gp.keyH.screenX = 0;
+                    gp.keyH.screenY = 0;
+
+                }
+
+
+            }
+
+        }
+
+
+
+    }
+
+    public void checkPlayer(Entity entity) {
+
+        // Get entity's hit box pos
+        entity.hitBox.x = entity.worldX + entity.hitBox.x;
+        entity.hitBox.y = entity.worldY + entity.hitBox.y;
+
+        // objects X and Y pos
+        gp.player.hitBox.x = gp.player.worldX + gp.player.hitBox.x;
+        gp.player.hitBox.y = gp.player.worldY + gp.player.hitBox.y;
+
+        switch (entity.direction) {
+
+            case "up":
+                entity.hitBox.y -= entity.speed;
+
+                // checks if the object's hitbox intersects with the player entities object
+                // .intersects is from the rectangle class
+                if(entity.hitBox.intersects(gp.player.hitBox)) {
+
+                    entity.collisionOn = true;
+
+
+                }
+
+                break;
+            case "down":
+                entity.hitBox.y += entity.speed;
+
+                if(entity.hitBox.intersects(gp.player.hitBox)) {
+
+                    entity.collisionOn = true;
+
+
+                }
+
+                break;
+            case "left":
+                entity.hitBox.x -= entity.speed;
+
+                if(entity.hitBox.intersects(gp.player.hitBox)) {
+
+                    entity.collisionOn = true;
+
+
+                }
+
+                break;
+            case "right":
+                entity.hitBox.x += entity.speed;
+
+                if(entity.hitBox.intersects(gp.player.hitBox)) {
+                    entity.collisionOn = true;
+
+                }
+
+                break;
+
+        }
+
+        // reset the entity x and y value
+        entity.hitBox.x = entity.hitBoxDefaultX;
+        entity.hitBox.y = entity.hitBoxDefaultY;
+
+        gp.player.hitBox.x = gp.player.hitBoxDefaultX;
+        gp.player.hitBox.y = gp.player.hitBoxDefaultY;
+
+
     }
 }

@@ -18,6 +18,7 @@ public class NPC_oldMan extends Entity {
         speed = 1;
 
         getNPCImage();
+        setDialogue();
     }
 
     // load the player images from the player package
@@ -35,6 +36,17 @@ public class NPC_oldMan extends Entity {
 
     }
 
+    public void setDialogue() {
+
+
+        dialogues[0] = "What do you want.";
+        maxDialogue++;
+        dialogues[1] = "I am a frail and weak man, I have no purpose in this land of pixels";
+        maxDialogue++;
+        dialogues[2] = "Would you be interested in a life-time warranty on your life?";
+        maxDialogue++;
+    }
+
     @Override
     public void setAction() {
 
@@ -46,24 +58,41 @@ public class NPC_oldMan extends Entity {
             Random rand = new Random();
             int i = rand.nextInt(105) + 1;
 
+            System.out.println(i);
 
             if(i <= 25) {
-                direction = "up";
 
+                direction = "down";
             }
             if(i >  25 && i <= 50) {
-                direction = "down";
+                direction = "up";
             }
             if(i > 50 && i <= 75) {
                 direction = "left";
             }
             if(i > 75 && i <= 100) {
                 direction = "right";
-            } else {
-
-                direction = "still";
             }
+//            } else {
+//
+//                direction = "still";
+//            }
             actionLockCounter = 0;
+        }
+
+    }
+
+    @Override
+    public void Speak() {
+
+        // so it doesnt go out of the bounds of the max lines of dialogue this npc has
+        if(dialogueIndex < maxDialogue) {
+            gp.ui.currDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+        }
+        else {
+            dialogueIndex = 0;
+            System.out.println("No more lines");
         }
 
     }

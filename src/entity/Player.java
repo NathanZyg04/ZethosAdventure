@@ -2,19 +2,16 @@ package entity;
 
 import main.AssetSetter;
 import main.GamePanel;
-import main.KeyHandler;
-import main.UtilityTool;
+import main.InputHandler;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity {
 
 
-    KeyHandler keyH;
+    InputHandler keyH;
 
     // player pos on the screen, the player's pos doesnt change, we draw the map around the player
     public final int screenX;
@@ -26,9 +23,11 @@ public class Player extends Entity {
 
     public AssetSetter aSetter;
 
+    public int npcIndex;
+
 
     // constructor
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, InputHandler keyH) {
 
         super(gp);
 
@@ -123,6 +122,12 @@ public class Player extends Entity {
                 throw new RuntimeException(e);
             }
 
+            int npcIndex = gp.colHandler.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
+            gp.colHandler.clickOnEntity(gp.npc);
+
+
             // if collision is false, player can move
             if(!collisionOn)
             {
@@ -148,6 +153,36 @@ public class Player extends Entity {
 
                 spriteCounter = 0;
             }
+        }
+    }
+
+    private void interactNPC(int npcIndex) {
+
+        // if the index is not 999 it is touching an NPC
+        if(npcIndex != 999) {
+
+            this.npcIndex = npcIndex;
+
+            // make the NPC face the players direction when you interact
+            switch (direction) {
+                case "up":
+                    gp.npc[npcIndex].direction = "down";
+                    break;
+                case "down":
+                    gp.npc[npcIndex].direction = "up";
+                    break;
+                case "left":
+                    gp.npc[npcIndex].direction = "right";
+                    break;
+                case "right":
+                    gp.npc[npcIndex].direction = "left";
+                    break;
+            }
+
+            gp.npc[npcIndex].Speak();
+
+            gp.gameState = gp.dialogueState;
+
         }
     }
 
