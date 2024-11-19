@@ -125,7 +125,7 @@ public class Player extends Entity {
             int npcIndex = gp.colHandler.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
-            gp.colHandler.clickOnEntity(gp.npc);
+
 
 
             // if collision is false, player can move
@@ -163,25 +163,7 @@ public class Player extends Entity {
 
             this.npcIndex = npcIndex;
 
-            // make the NPC face the players direction when you interact
-            switch (direction) {
-                case "up":
-                    gp.npc[npcIndex].direction = "down";
-                    break;
-                case "down":
-                    gp.npc[npcIndex].direction = "up";
-                    break;
-                case "left":
-                    gp.npc[npcIndex].direction = "right";
-                    break;
-                case "right":
-                    gp.npc[npcIndex].direction = "left";
-                    break;
-            }
 
-            gp.npc[npcIndex].Speak();
-
-            gp.gameState = gp.dialogueState;
 
         }
     }

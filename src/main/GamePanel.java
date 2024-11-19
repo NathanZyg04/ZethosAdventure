@@ -59,11 +59,13 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter aSetter = new AssetSetter(this);
 
 
-    // GAME STATE
+    // GAME STATES
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+
 
 
 
@@ -76,12 +78,15 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.addMouseListener(keyH);
         this.setFocusable(true);
+
+
     }
 
     // set up game objects and play music
     public void setUpGame() throws IOException {
 
-        gameState = playState;
+        // default game state
+        gameState = titleState;
 
         // set the NPC
         aSetter.setNPC();
@@ -100,8 +105,8 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setObj("door",10,12);
         aSetter.setObj("boots",37,42);
 
-        // music
-        playMusic(0);
+
+
     }
 
     // start the game clock
@@ -169,6 +174,7 @@ public class GamePanel extends JPanel implements Runnable{
             // call the player update method
             player.update();
 
+
             // NPC
             for(int i = 0;i<npc.length;i++) {
                 if(npc[i] != null) {
@@ -189,50 +195,57 @@ public class GamePanel extends JPanel implements Runnable{
 
         // DEBUG
         long drawStart = 0;
-
-
         if(keyH.checkDrawTime) {
             drawStart = System.nanoTime();
         }
 
-        // draw the tiles
-        tileM.draw(g2);
+        // Title Screen
+        if(gameState == titleState) {
+            ui.draw(g2);
+        }
+        else {
 
-        //draw the objects
-        for(int i = 0;i< obj.length;i++) {
+            // draw the tiles
+            tileM.draw(g2);
 
-            if(obj[i] != null) {
+            //draw the objects
+            for(int i = 0;i< obj.length;i++) {
+
+                if(obj[i] != null) {
 
 
-                obj[i].draw(g2, this);
+                    obj[i].draw(g2, this);
 
+                }
             }
-        }
 
-        if(keyH.checkDrawTime) {
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            g2.setColor(Color.white);
-            g2.drawString("Draw Time: " + passed, 10, 400);
-            System.out.println(("Draw Time: "+passed));
-        }
-
-        // draw the NPC
-        for(int i = 0;i< npc.length;i++) {
-            if(npc[i] != null) {
-                npc[i].draw(g2);
-                //System.out.println(npc[i].hitBox.x + ", " + npc[i].hitBox.y);
+            if(keyH.checkDrawTime) {
+                long drawEnd = System.nanoTime();
+                long passed = drawEnd - drawStart;
+                g2.setColor(Color.white);
+                g2.drawString("Draw Time: " + passed, 10, 400);
+                System.out.println(("Draw Time: "+passed));
             }
+
+            // draw the NPC
+            for(int i = 0;i< npc.length;i++) {
+                if(npc[i] != null) {
+                    npc[i].draw(g2);
+                    //System.out.println(npc[i].hitBox.x + ", " + npc[i].hitBox.y);
+                }
+            }
+
+            // draw the player
+            player.draw(g2);
+
+            // UI
+            ui.draw(g2);
+
+            // save memory
+            g2.dispose();
         }
 
-        // draw the player
-        player.draw(g2);
 
-        // UI
-        ui.draw(g2);
-
-        // save memory
-        g2.dispose();
     }
 
     // play the music and loop it

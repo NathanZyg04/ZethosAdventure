@@ -1,15 +1,12 @@
 package entity;
 
 import main.GamePanel;
-import main.UtilityTool;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.Random;
 
 public class NPC_oldMan extends Entity {
+
+
 
     public NPC_oldMan(GamePanel gp) {
         super(gp);
@@ -40,11 +37,12 @@ public class NPC_oldMan extends Entity {
 
 
         dialogues[0] = "What do you want.";
-        maxDialogue++;
+
         dialogues[1] = "I am a frail and weak man, I have no purpose in this land of pixels";
-        maxDialogue++;
+
         dialogues[2] = "Would you be interested in a life-time warranty on your life?";
-        maxDialogue++;
+        dialogues[3] = "This is a very long dialogue of text \n Maybe I should try and shorten it \n That could work";
+
     }
 
     @Override
@@ -57,8 +55,6 @@ public class NPC_oldMan extends Entity {
         {
             Random rand = new Random();
             int i = rand.nextInt(105) + 1;
-
-            System.out.println(i);
 
             if(i <= 25) {
 
@@ -85,17 +81,18 @@ public class NPC_oldMan extends Entity {
     @Override
     public void Speak() {
 
-        // so it doesnt go out of the bounds of the max lines of dialogue this npc has
-        if(dialogueIndex < maxDialogue) {
-            gp.ui.currDialogue = dialogues[dialogueIndex];
-            dialogueIndex++;
-        }
-        else {
-            dialogueIndex = 0;
-            System.out.println("No more lines");
-        }
+        super.Speak();
 
     }
+
+
+
+    @Override
+    public void onClick() {
+       Speak();
+    }
+
+
 
 
 

@@ -5,6 +5,14 @@ import java.io.IOException;
 
 public class Main {
 
+    /*
+
+    - Add a class selection screen
+
+
+
+     */
+
     public static void main(String[] args) throws IOException {
 
         JFrame window = new JFrame();

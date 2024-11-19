@@ -288,15 +288,17 @@ public class CollisionHandler {
             // check if that object exsists
             if(target[i] != null) {
 
-                System.out.println(target[i].screenX + ", " + target[i].screenY);
+                //System.out.println("NPC: " + target[i].screenX + ", " + target[i].screenY);
 
-                if(gp.keyH.screenX >= target[i].screenX - 50 || gp.keyH.screenX <= target[i].screenX + 50
-                    || gp.keyH.screenY >= target[i].screenX - 50 || gp.keyH.screenY <= target[i].screenY + 50 ) {
+                if(gp.keyH.screenX >= target[i].screenX && gp.keyH.screenX <= target[i].screenX + 48
+                        && gp.keyH.screenY >= target[i].screenY && gp.keyH.screenY <= target[i].screenY + 48 )
+                {
 
                     System.out.println("Clicked on entity");
 
-                    gp.keyH.screenX = 0;
-                    gp.keyH.screenY = 0;
+                    target[i].onClick();
+
+                    gp.gameState = gp.dialogueState;
 
                 }
 

@@ -8,12 +8,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Random;
 
 // this will be the parent class for any NPS or Players
 public class Entity {
 
-    // entitys X and Y pos with respect to the entire map
+    // entities X and Y pos with respect to the entire map
     public int worldX, worldY;
     public int speed;
 
@@ -37,8 +36,8 @@ public class Entity {
     // Dialogue text
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
-    // max dialogue lines that NPC has
-    public int maxDialogue = 0;
+
+
 
     public int screenX;
     public int screenY;
@@ -53,7 +52,7 @@ public class Entity {
     public BufferedImage setupImage(String imagePath) {
 
         UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
+        BufferedImage image;
 
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath + ".png")));
@@ -171,7 +170,39 @@ public class Entity {
     }
 
     public void Speak() {
-        System.out.println("This wont work");
+
+        // so it doesn't go out of the bounds of the max lines of dialogue this npc has
+        if(dialogues[dialogueIndex] != null) {
+            gp.ui.currDialogue = dialogues[dialogueIndex];
+            dialogueIndex++;
+        }
+        else {
+            dialogueIndex = 0;
+            gp.gameState = gp.playState;
+            System.out.println("No more lines");
+        }
+
+
+        // make the NPC face the players direction when you interact
+        switch (gp.player.direction) {
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
+        }
+    }
+
+
+    public void onClick() {
+
     }
 
 }

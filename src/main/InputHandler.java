@@ -35,6 +35,54 @@ public class InputHandler implements KeyListener, MouseListener {
 
         int code = e.getKeyCode();
 
+        // Title Screen
+        if(gp.gameState == gp.titleState) {
+
+            // Up and down select controls
+            if(code == KeyEvent.VK_UP){
+                if(gp.ui.commandNum == 0) {
+                    gp.ui.commandNum = 2;
+                } else {
+                    gp.ui.commandNum--;
+                }
+
+            }
+
+            if(code == KeyEvent.VK_DOWN) {
+                if(gp.ui.commandNum == 2) {
+                    gp.ui.commandNum = 0;
+                } else {
+                    gp.ui.commandNum++;
+                }
+            }
+
+            // Enter Controls
+            if(code == KeyEvent.VK_ENTER) {
+                // New game
+                if(gp.ui.commandNum == 0)
+                {
+                    gp.gameState = gp.playState;
+                    // Start music and play effect
+                    gp.playMusic(0);
+                    gp.playEffect(5);
+                }
+
+                // Load Game
+                if(gp.ui.commandNum == 1)
+                {
+
+                }
+
+                // Quit
+                if(gp.ui.commandNum == 2) {
+                    System.exit(0);
+                }
+
+            }
+
+
+        }
+
         // Play state
         if(gp.gameState == gp.playState) {
 
@@ -122,7 +170,13 @@ public class InputHandler implements KeyListener, MouseListener {
         screenX = e.getX();
         screenY = e.getY();
 
-        System.out.println("Click: " + screenX + ", " + screenY );
+        // only click on the entity if it is within a 200x200 box around the player
+        if(screenX >= 530 && screenX <= 730 && screenY >= 565 && screenY <= 765) {
+            gp.colHandler.clickOnEntity(gp.npc);
+            System.out.println("Click: " + screenX + ", " + screenY );
+        }
+
+
     }
 
     @Override
