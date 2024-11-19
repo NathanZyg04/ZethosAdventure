@@ -1,5 +1,6 @@
 package main;
 
+import entity.NPC_oldMan;
 import objects.OBJ_Key;
 
 import java.io.IOException;
@@ -33,6 +34,14 @@ public class AssetSetter {
         gp.obj[index].worldX = x;
         gp.obj[index].worldY = y;
 
+
+    }
+
+    public void setNPC() {
+
+        gp.npc[0] = new NPC_oldMan(gp);
+        gp.npc[0].worldX = gp.tileSize*21;
+        gp.npc[0].worldY =gp.tileSize*21;
 
     }
 }

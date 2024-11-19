@@ -191,4 +191,9 @@ public class CollisionHandler {
 
 
     }
+
+    // NPC or monster collision
+    public int checkEntity(Entity entity, Entity[] target) {
+        return 0;
+    }
 }

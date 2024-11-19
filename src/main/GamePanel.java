@@ -1,6 +1,7 @@
 package main;
 
 import Tile.tileManager;
+import entity.Entity;
 import entity.Player;
 import objects.SuperObject;
 
@@ -34,22 +35,39 @@ public class GamePanel extends JPanel implements Runnable{
     // handler things
     public CollisionHandler colHandler = new CollisionHandler(this);
     public tileManager tileM = new tileManager(this);
-    KeyHandler keyH = new KeyHandler();
-    Sound sound = new Sound();
+    KeyHandler keyH = new KeyHandler(this);
+
+    // sounds
+    Sound music = new Sound();
+    Sound soundEffect = new Sound();
+
+    // UI handler
+    public UI ui = new UI(this);
 
     // new player Object
     public Player player = new Player(this,keyH);
 
     // array of ten slots of objects
     // ten means we can have a max of ten objects loaded at once
-    public int objCount = 10;
+    public int objCount = 20;
     public SuperObject[] obj = new SuperObject[objCount];
+
+    // NPC
+    public Entity[] npc = new Entity[10];
 
     // new assetSetter obj pass it this instance of gamePanel
     public AssetSetter aSetter = new AssetSetter(this);
 
+
+    // GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+
+
+
     // constructor
-    public GamePanel() {
+    public GamePanel() throws IOException {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -61,10 +79,22 @@ public class GamePanel extends JPanel implements Runnable{
     // set up game objects and play music
     public void setUpGame() throws IOException {
 
+        gameState = playState;
+
+        // set the NPC
+        aSetter.setNPC();
+
         // make the objects in the array with its ID (what object is it) and its X and Y pos in the world
         aSetter.setObj("key",23,7);
         aSetter.setObj("chest",10,8);
         aSetter.setObj("red_potion",23,33);
+        aSetter.setObj("key",23,40);
+        aSetter.setObj("key",23,39);
+        aSetter.setObj("key",23,38);
+        aSetter.setObj("key",23,37);
+        aSetter.setObj("key",23,36);
+        aSetter.setObj("key",23,35);
+        aSetter.setObj("key",23,34);
         aSetter.setObj("door",10,11);
         aSetter.setObj("boots",37,42);
 
@@ -121,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             // display FPS to console
             if(timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
+               // System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }
@@ -131,16 +161,37 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() throws IOException {
 
-        // call the player update method
-        player.update();
+
+        if(gameState == playState) {
+
+            // call the player update method
+            player.update();
+
+            // NPC
+            for(int i = 0;i<npc.length;i++) {
+                if(npc[i] != null) {
+                    npc[i].update();
+                }
+            }
+        }
+        if(gameState == pauseState) {
+
+        }
     }
 
     // drawing things on screen
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g;
+
+        // DEBUG
+        long drawStart = 0;
+
+
+        if(keyH.checkDrawTime) {
+            drawStart = System.nanoTime();
+        }
 
         // draw the tiles
         tileM.draw(g2);
@@ -156,8 +207,27 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
+        if(keyH.checkDrawTime) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.white);
+            g2.drawString("Draw Time: " + passed, 10, 400);
+            System.out.println(("Draw Time: "+passed));
+        }
+
+        // draw the NPC
+        for(int i = 0;i< npc.length;i++) {
+            if(npc[i] != null) {
+                npc[i].draw(g2);
+            }
+        }
+
         // draw the player
         player.draw(g2);
+
+        // UI
+        ui.draw(g2);
+
         // save memory
         g2.dispose();
     }
@@ -166,18 +236,18 @@ public class GamePanel extends JPanel implements Runnable{
     public void playMusic(int i) {
 
         // load the music file
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
+        music.setFile(i);
+        music.play();
+        music.loop();
 
     }
 
-    public void stopMusic() { sound.stop(); }
+    public void stopMusic() { music.stop(); }
 
     // plays a sound effect
     public void playEffect(int i) {
-        sound.setFile(i);
-        sound.play();
+        soundEffect.setFile(i);
+        soundEffect.play();
     }
 
 

@@ -3,6 +3,7 @@ package entity;
 import main.AssetSetter;
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,22 +13,25 @@ import java.util.Objects;
 
 public class Player extends Entity {
 
-    GamePanel gp;
+
     KeyHandler keyH;
 
     // player pos on the screen, the player's pos doesnt change, we draw the map around the player
     public final int screenX;
     public final int screenY;
 
+
     // how many keys the player has
-    int hasKey = 1;
+    public int hasKey = 0;
 
     public AssetSetter aSetter;
 
 
     // constructor
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+
+        super(gp);
+
         this.keyH = keyH;
 
         aSetter = new AssetSetter(gp);
@@ -64,27 +68,23 @@ public class Player extends Entity {
     // load the player images from the player package
     public void getPlayerImage() {
 
-        try {
+        up1  = setupImage("/player/boy_up_1");
+        up2  = setupImage("/player/boy_up_2");
+        down1  = setupImage("/player/boy_down_1");
+        down2  = setupImage("/player/boy_down_2");
+        left1  = setupImage("/player/boy_left_1");
+        left2  = setupImage("/player/boy_left_2");
+        right1  = setupImage("/player/boy_right_1");
+        right2  = setupImage("/player/boy_right_2");
 
-            up1  = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            up2  = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            down1  = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            down2  = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            left1  = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            left2  = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-            right1  = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            right2  = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
-
-
-
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
     }
 
-    public void update() throws IOException {
+
+
+
+    @Override
+    public void update() {
 
         // movement handling, wrap everything in the outer if statement so the player doesnt animate while no keys are pressed
         if(keyH.downPressed || keyH.upPressed || keyH.leftPressed || keyH.rightPressed)
@@ -117,7 +117,11 @@ public class Player extends Entity {
 
             // object collision
             int objIndex = gp.colHandler.checkObject(this, true);
-            pickUpObject(objIndex);
+            try {
+                pickUpObject(objIndex);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             // if collision is false, player can move
             if(!collisionOn)
@@ -162,6 +166,7 @@ public class Player extends Entity {
                     hasKey++;
                     gp.playEffect(1);
                     gp.obj[i] = null;
+                    gp.ui.showMessage("You got a key!");
                     break;
                 case "door":
                     if(hasKey > 0) {
@@ -170,6 +175,9 @@ public class Player extends Entity {
                         gp.playEffect(5);
                         hasKey--;
                     }
+                    else {
+                        gp.ui.showMessage("This door is locked.");
+                    }
                     break;
                 case "boots":
                     speed += 2;
@@ -177,6 +185,7 @@ public class Player extends Entity {
                     break;
                 case "chest":
                     aSetter.replaceObj("chest_opened",gp.obj[i].worldX, gp.obj[i].worldY,i);
+                    gp.ui.endGame();
             }
         }
     }
