@@ -13,6 +13,10 @@ public class NPC_oldMan extends Entity {
 
         direction = "down";
         speed = 1;
+        hitBox.x = 8;
+        hitBox.y = 16;
+        hitBoxDefaultX = hitBox.x;
+        hitBoxDefaultY = hitBox.y;
 
         getNPCImage();
         setDialogue();

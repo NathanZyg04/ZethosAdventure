@@ -47,11 +47,11 @@ public class Player extends Entity {
         hitBox = new Rectangle();
         // startng point of the rectangle
         hitBox.x = 8;
-        hitBox.y = 16;
+        hitBox.y = 12;
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
-        hitBox.width = 25;
-        hitBox.height = 25;
+        hitBox.width = gp.tileSize/2;
+        hitBox.height = gp.tileSize/2;
 
         setDefaultValues();
 
@@ -65,7 +65,7 @@ public class Player extends Entity {
         // starting pos for the player in the world.txt file map
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
-        speed = 4;
+        speed = 1;
         direction = "down";
 
         // Player's status
@@ -227,6 +227,8 @@ public class Player extends Entity {
 
         BufferedImage image = null;
 
+
+
         switch (direction) {
             case "up":
                 if(spriteNum == 1) {
@@ -267,6 +269,11 @@ public class Player extends Entity {
 
         // draws the iamge with x and y pos and Width and height
         g2.drawImage(image, screenX, screenY, gp.tileSize,gp.tileSize, null);
+
+
+        // DEBUG for player's hit box
+        g2.drawRect(hitBox.x+screenX,hitBox.y+screenY,hitBox.width,hitBox.height);
+
 
 
 

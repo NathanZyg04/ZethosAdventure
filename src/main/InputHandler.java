@@ -137,6 +137,11 @@ public class InputHandler implements KeyListener, MouseListener {
         if(code == KeyEvent.VK_ESCAPE) {
             gp.gameState = gp.pauseState;
         }
+        // Enter logic
+        if(code == KeyEvent.VK_ENTER ) {
+            System.out.println("Test");
+
+        }
 
     }
 
@@ -256,14 +261,14 @@ public class InputHandler implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
+
         screenX = e.getX();
         screenY = e.getY();
 
-        // only click on the entity if it is within a 200x200 box around the player
-        if(screenX >= 530 && screenX <= 730 && screenY >= 565 && screenY <= 765) {
-            gp.colHandler.clickOnEntity(gp.npc);
-            System.out.println("Click: " + screenX + ", " + screenY );
-        }
+        System.out.println("Click: " + screenX + ", " + screenY );
+
+        // check if the mouse was within the bounds
+        mouseClickCheck(screenX,screenY);
 
 
     }
@@ -280,6 +285,33 @@ public class InputHandler implements KeyListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+
+    // X and Y pos of the mouse click
+    public void mouseClickCheck(int x, int y) {
+
+        // Proportion of screen for the clickable ara
+        double boxWidthRatio = 0.2;
+        double boxHeightRatio = 0.2;
+
+        // Find the dimensions of the box
+        int boxHeight = (int) (gp.screenHeight * boxHeightRatio);
+        int boxWidth = (int) (gp.screenWidth * boxHeightRatio);
+
+        // vertices of the box
+        int boxLeft = gp.player.screenX - boxWidth / 2;
+        int boxRight = gp.player.screenX + boxWidth / 2;
+        int boxTop = gp.player.screenY - boxHeight / 2;
+        int boxBottom = gp.player.screenY + boxHeight / 2;
+
+
+        // Check if the mouse click is within the box
+        if (x >= boxLeft && x <= boxRight && y >= boxTop && y <= boxBottom) {
+            gp.colHandler.clickOnEntity(gp.npc);
+        }
+
 
     }
 }

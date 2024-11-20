@@ -290,8 +290,8 @@ public class CollisionHandler {
 
                 //System.out.println("NPC: " + target[i].screenX + ", " + target[i].screenY);
 
-                if(gp.keyH.screenX >= target[i].screenX && gp.keyH.screenX <= target[i].screenX + 48
-                        && gp.keyH.screenY >= target[i].screenY && gp.keyH.screenY <= target[i].screenY + 48 )
+                if(gp.keyH.screenX >= target[i].screenX && gp.keyH.screenX <= target[i].screenX + gp.tileSize
+                        && gp.keyH.screenY >= target[i].screenY && gp.keyH.screenY <= target[i].screenY + gp.tileSize )
                 {
 
                     System.out.println("Clicked on entity");

@@ -159,7 +159,7 @@ public class UI {
         }
 
         // Title name
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 123F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileSize*2));
         String text1 = "Zetho's";
         String text2 = "Adventure";
         int x1,x2,y1,y2;
@@ -175,7 +175,7 @@ public class UI {
         g2.drawString(text1,x1+5,y1+5);
         g2.drawString(text2,x2+5,y2+5);
 
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 120F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileSize*2));
 
         g2.setColor(titleColor);
         g2.drawString(text1,x1,y1);
@@ -188,7 +188,7 @@ public class UI {
         g2.drawImage(gp.player.down1,x1,y1,gp.tileSize*2,gp.tileSize*2,null);
 
         // Menu
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 75F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileSize));
 
         text1 = "NEW GAME";
         x1 = getXforCenteredText(text1);
@@ -246,7 +246,7 @@ public class UI {
 
         int scale = 250;
 
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, gp.tileSize));
         g2.setColor(Color.white);
 
         for(int i = 0;i<gp.maxScreenCol;i++) {
@@ -275,7 +275,7 @@ public class UI {
 
         drawSubWindow(x,y,width,height);
 
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, (float) gp.tileSize /2));
         text = "Warrior";
 
 
@@ -332,7 +332,7 @@ public class UI {
         drawSubWindow(x,y,width,height);
 
 
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,32));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, (float) gp.tileSize /2));
         x += gp.tileSize;
         y += gp.tileSize + 10;
 

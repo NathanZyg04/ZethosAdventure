@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // Screen settings
     final int originalTileSize = 16;
-    final int scale = 3;
+    final int scale = 2;
 
     // scale up the original tile size by the scale so it looks better on modern monitors
     public final int tileSize = originalTileSize * scale;
@@ -210,6 +210,7 @@ public class GamePanel extends JPanel implements Runnable{
 
             // draw the tiles
             tileM.draw(g2);
+
 
             //draw the objects
             for(int i = 0;i< obj.length;i++) {

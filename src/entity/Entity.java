@@ -24,7 +24,7 @@ public class Entity {
     public int spriteNum = 1;
 
     // players hit box
-    public Rectangle hitBox = new Rectangle(0,0,48,48);
+    public Rectangle hitBox;
     public boolean collisionOn = false;
 
     public int hitBoxDefaultX, hitBoxDefaultY;
@@ -49,6 +49,7 @@ public class Entity {
     public Entity(GamePanel gp) {
 
         this.gp = gp;
+        this.hitBox = new Rectangle(0,0,gp.tileSize/2,gp.tileSize/2);
 
 
     }
@@ -169,6 +170,9 @@ public class Entity {
             }
 
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            // Draw the rectangle hix box for the entity
+            g2.drawRect(hitBox.x+screenX,hitBox.y+screenY,hitBox.width,hitBox.height);
 
         }
     }
