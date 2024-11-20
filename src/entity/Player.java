@@ -132,9 +132,13 @@ public class Player extends Entity {
                 throw new RuntimeException(e);
             }
 
+            // NPC collison
             int npcIndex = gp.colHandler.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
 
+
+            // Event
+            gp.eHandler.checkEvent();
 
 
 

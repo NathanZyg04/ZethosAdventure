@@ -207,7 +207,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         else {
 
-            System.out.println(player.classNum);
+
             // draw the tiles
             tileM.draw(g2);
 
