@@ -25,6 +25,12 @@ public class Player extends Entity {
 
     public int npcIndex;
 
+    public int classNum;
+
+    public final int warriorClass = 0;
+    public final int sorcererClass = 1;
+    public final int hunterClass = 2;
+
 
     // constructor
     public Player(GamePanel gp, InputHandler keyH) {
@@ -61,6 +67,10 @@ public class Player extends Entity {
         worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
+
+        // Player's status
+        maxLife = 8;
+        life = maxLife;
 
     }
 

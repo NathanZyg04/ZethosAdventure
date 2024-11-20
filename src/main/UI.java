@@ -1,6 +1,8 @@
 package main;
 
 import objects.OBJ_Key;
+import objects.SuperObject;
+import objects.heart;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -35,6 +37,9 @@ public class UI {
 
     private final Color titleColor = new Color(219,186,22);
 
+    // Heart Health Images
+    BufferedImage heartFull, heartHalf, heartEmpty;
+
     public UI(GamePanel gp) throws IOException {
         this.gp = gp;
         OBJ_Key key = new OBJ_Key("key");
@@ -52,6 +57,11 @@ public class UI {
             throw new RuntimeException(e);
         }
 
+        // Hud elements
+        SuperObject heart = new heart(gp);
+        heartFull = heart.image;
+        heartHalf = heart.image2;
+        heartEmpty = heart.image3;
 
     }
 
@@ -81,18 +91,57 @@ public class UI {
         // Play state
         if(gp.gameState == gp.playState) {
             // do play state stuff
-
+            drawHealthBar();
         }
 
         // Pause state
         if(gp.gameState == gp.pauseState) {
+            drawHealthBar();
             drawPauseScreen();
         }
 
         // Dialogue state
         if(gp.gameState == gp.dialogueState) {
+            drawHealthBar();
             drawDialogueScreen();
         }
+
+        // Character selection screen
+        if(gp.gameState == gp.characterScreenState) {
+            drawClassScreen();
+        }
+    }
+
+    private void drawHealthBar() {
+
+        int x, y;
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        int i = 0;
+
+        // Draw blank heart
+        while (i < gp.player.maxLife/2) {
+            g2.drawImage(heartEmpty,x,y,null);
+            i++;
+            x += gp.tileSize*2;
+        }
+
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        // draw current life
+
+        while (i < gp.player.life) {
+            g2.drawImage(heartHalf,x,y,null);
+            i++;
+            if(i < gp.player.life) {
+                g2.drawImage(heartFull,x,y,null);
+            }
+            i++;
+            x += gp.tileSize*2;
+        }
+
     }
 
 
@@ -144,6 +193,13 @@ public class UI {
         text1 = "NEW GAME";
         x1 = getXforCenteredText(text1);
         y1 += gp.tileSize*6;
+
+        // Shadow
+        g2.setColor(Color.BLACK);
+        g2.drawString(text1,x1+5,y1+5);
+
+        // Main text
+        g2.setColor(titleColor);
         g2.drawString(text1,x1,y1);
 
         if(commandNum == 0) {
@@ -153,7 +209,15 @@ public class UI {
         text1 = "LOAD SAVE";
         x1 = getXforCenteredText(text1);
         y1 += gp.tileSize+25;
+
+        // Shadow
+        g2.setColor(Color.BLACK);
+        g2.drawString(text1,x1+5,y1+5);
+
+        // Main text
+        g2.setColor(titleColor);
         g2.drawString(text1,x1,y1);
+
         if(commandNum == 1) {
             g2.drawString(">",x1-gp.tileSize,y1);
         }
@@ -161,10 +225,95 @@ public class UI {
         text1 = "QUIT";
         x1 = getXforCenteredText(text1);
         y1 += gp.tileSize+25;
+
+        // Shadow
+        g2.setColor(Color.BLACK);
+        g2.drawString(text1,x1+5,y1+5);
+
+        // Main text
+        g2.setColor(titleColor);
         g2.drawString(text1,x1,y1);
+
         if(commandNum == 2) {
             g2.drawString(">",x1-gp.tileSize,y1);
         }
+
+
+    }
+
+    // Class selection Screen
+    private void drawClassScreen() {
+
+        int scale = 250;
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
+        g2.setColor(Color.white);
+
+        for(int i = 0;i<gp.maxScreenCol;i++) {
+
+            for(int j = 0;j<gp.maxWorldRow;j++) {
+
+                g2.drawImage(gp.tileM.tile[46].image,i*scale,j*scale,scale,scale,null);
+            }
+        }
+
+        String text = "Select your Class: ";
+
+        int x, y;
+        int width, height;
+
+        x = getXforCenteredText(text);
+        y = gp.tileSize*4;
+
+        g2.drawString(text,x,y);
+
+        y += gp.tileSize*2;
+        x = gp.tileSize*7 + 20;
+
+        width = gp.screenWidth - (gp.tileSize*15);
+        height = gp.tileSize*15;
+
+        drawSubWindow(x,y,width,height);
+
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        text = "Warrior";
+
+
+
+
+        x = getXforCenteredText(text);
+        y += gp.tileSize*3;
+
+        if(commandNum == 3) {
+            g2.drawString(">",x-gp.tileSize,y);
+        }
+
+        g2.drawString(text,x,y);
+
+
+
+        text = "Sorcerer";
+        x = getXforCenteredText(text);
+        y += gp.tileSize;
+
+        if(commandNum == 4) {
+            g2.drawString(">",x-gp.tileSize,y);
+        }
+
+        g2.drawString(text,x,y);
+
+        text = "Hunter";
+        x = getXforCenteredText(text);
+        y += gp.tileSize;
+
+        if(commandNum == 5) {
+            g2.drawString(">",x-gp.tileSize,y);
+        }
+
+        g2.drawString(text,x,y);
+
+
+
 
 
     }

@@ -90,6 +90,7 @@ public class tileManager {
         setup(43,"hut", false);
         setup(44,"grass00", false);
         setup(45,"floor01", false);
+        setup(46,"background01", false);
 
     }
 

@@ -47,6 +47,8 @@ public class OBJ_Key extends SuperObject {
                 collision = true;
                 image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/chest_opened.png")));
                 break;
+
+
         }
 
 

@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionHandler colHandler = new CollisionHandler(this);
     public tileManager tileM = new tileManager(this);
     InputHandler keyH = new InputHandler(this,tileSize);
+    public EventHandler eHandler = new EventHandler(this);
 
     // sounds
     Sound music = new Sound();
@@ -65,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+    public final int characterScreenState = 4;
 
 
 
@@ -205,6 +207,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         else {
 
+            System.out.println(player.classNum);
             // draw the tiles
             tileM.draw(g2);
 

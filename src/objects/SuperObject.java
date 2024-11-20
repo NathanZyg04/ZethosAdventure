@@ -2,6 +2,7 @@ package objects;
 
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class SuperObject {
 
     // image for the object
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
     // name of object
     public String name;
     // int ID for object
@@ -18,6 +19,7 @@ public class SuperObject {
     public boolean collision = false;
     // pos for object on world
     public int worldX, worldY;
+    public UtilityTool uTool = new UtilityTool();
 
     // hit box of the object for interaction
     public Rectangle hitBox = new Rectangle(0,0,48,48);
