@@ -1,16 +1,20 @@
 package objects;
 
+import entity.Entity;
+import main.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class OBJ_Key extends SuperObject {
+public class OBJ_Key extends Entity {
 
 
 
-    public OBJ_Key(String obj_name) throws IOException {
+    public OBJ_Key(GamePanel gp, String obj_name) throws IOException {
 
+        super(gp);
 
 
         switch (obj_name) {

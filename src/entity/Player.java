@@ -65,7 +65,7 @@ public class Player extends Entity {
         // starting pos for the player in the world.txt file map
         worldX = gp.tileSize * 23;
         worldY = gp.tileSize * 21;
-        speed = 1;
+        speed = 4;
         direction = "down";
 
         // Player's status

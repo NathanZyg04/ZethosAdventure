@@ -1,19 +1,19 @@
 package objects;
 
+import entity.Entity;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
 
-public class heart extends SuperObject{
+public class heart extends Entity {
 
-    GamePanel gp;
+
 
     public heart(GamePanel gp) {
 
-        this.gp = gp;
-
+      super(gp);
         name = "Heart";
 
 

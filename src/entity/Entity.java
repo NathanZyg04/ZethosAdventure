@@ -12,12 +12,23 @@ import java.util.Objects;
 // this will be the parent class for any NPS or Players
 public class Entity {
 
+    // image for the object
+    public BufferedImage image, image2, image3;
+    // name of object
+    public String name;
+    // int ID for object
+    public int objID;
+    public boolean collision = false;
+
+    // Utility
+    public UtilityTool uTool = new UtilityTool();
+
     // entities X and Y pos with respect to the entire map
     public int worldX, worldY;
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public String direction;
+    public String direction = "down";
 
     // vars to help with walking animation
     public int spriteCounter = 0;

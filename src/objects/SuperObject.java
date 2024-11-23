@@ -10,13 +10,7 @@ import java.awt.image.BufferedImage;
 // parent class of all the objects
 public class SuperObject {
 
-    // image for the object
-    public BufferedImage image, image2, image3;
-    // name of object
-    public String name;
-    // int ID for object
-    public int objID;
-    public boolean collision = false;
+
     // pos for object on world
     public int worldX, worldY;
     public UtilityTool uTool = new UtilityTool();

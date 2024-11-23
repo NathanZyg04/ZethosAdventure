@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import objects.OBJ_Key;
 import objects.SuperObject;
 import objects.heart;
@@ -15,7 +16,7 @@ import java.io.InputStream;
 public class UI {
 
     GamePanel gp;
-    BufferedImage keyImage;
+
     Graphics2D g2;
 
     // UI messages
@@ -28,8 +29,6 @@ public class UI {
 
     private boolean gameOver = false;
 
-    double playTime = 0;
-    int messageCounter = 0;
 
     public String currDialogue = " ";
 
@@ -42,8 +41,7 @@ public class UI {
 
     public UI(GamePanel gp) throws IOException {
         this.gp = gp;
-        OBJ_Key key = new OBJ_Key("key");
-        keyImage = key.image;
+
 
         //fonts
         arial_40 = new Font("Arial", Font.PLAIN, 40);
@@ -58,7 +56,7 @@ public class UI {
         }
 
         // Hud elements
-        SuperObject heart = new heart(gp);
+        Entity heart = new heart(gp);
         heartFull = heart.image;
         heartHalf = heart.image2;
         heartEmpty = heart.image3;

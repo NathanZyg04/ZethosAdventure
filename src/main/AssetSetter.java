@@ -18,7 +18,7 @@ public class AssetSetter {
 
         // check if adding the object is within the bounds of the array
         if(objArrayIndex < gp.objCount) {
-            gp.obj[objArrayIndex] = new OBJ_Key(obj_name);
+            gp.obj[objArrayIndex] = new OBJ_Key(gp,obj_name);
             gp.obj[objArrayIndex].worldX = x * gp.tileSize;
             gp.obj[objArrayIndex].worldY = y * gp.tileSize;
 
@@ -30,7 +30,7 @@ public class AssetSetter {
 
     public void replaceObj(String obj_name, int x, int y, int index) throws IOException {
 
-        gp.obj[index] = new OBJ_Key(obj_name);
+        gp.obj[index] = new OBJ_Key(gp,obj_name);
         gp.obj[index].worldX = x;
         gp.obj[index].worldY = y;
 

@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     // Screen settings
     final int originalTileSize = 16;
-    final int scale = 2;
+    final int scale = 3;
 
     // scale up the original tile size by the scale so it looks better on modern monitors
     public final int tileSize = originalTileSize * scale;
@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
     // array of ten slots of objects
     // ten means we can have a max of ten objects loaded at once
     public int objCount = 20;
-    public SuperObject[] obj = new SuperObject[objCount];
+    public Entity[] obj = new Entity[objCount];
 
     // NPC
     public Entity[] npc = new Entity[10];
@@ -208,6 +208,9 @@ public class GamePanel extends JPanel implements Runnable{
         else {
 
 
+
+
+
             // draw the tiles
             tileM.draw(g2);
 
@@ -218,7 +221,7 @@ public class GamePanel extends JPanel implements Runnable{
                 if(obj[i] != null) {
 
 
-                    obj[i].draw(g2, this);
+                    obj[i].draw(g2);
 
                 }
             }
@@ -241,6 +244,8 @@ public class GamePanel extends JPanel implements Runnable{
 
             // draw the player
             player.draw(g2);
+
+            //g2.drawRect(eHandler.eventRect.x,eHandler.eventRect.y, eHandler.eventRect.width,eHandler.eventRect.height);
 
             // UI
             ui.draw(g2);

@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 public class InputHandler implements KeyListener, MouseListener {
 
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
 
     public boolean checkDrawTime = false;
 
@@ -139,7 +139,7 @@ public class InputHandler implements KeyListener, MouseListener {
         }
         // Enter logic
         if(code == KeyEvent.VK_ENTER ) {
-            System.out.println("Test");
+           enterPressed = true;
 
         }
 
@@ -247,6 +247,9 @@ public class InputHandler implements KeyListener, MouseListener {
         }
         if(code == KeyEvent.VK_D) {
             rightPressed = false;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
         }
 
     }
